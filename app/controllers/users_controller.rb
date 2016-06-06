@@ -1,8 +1,20 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: [:new, :create], raise: false
 
+  def index
+    @users = User.all
+  end
+
+  def show
+    @user = User.find(params[:id])
+  end
+
   def new
     @user = User.new
+  end
+
+  def edit
+    @user = User.find(params[:id])
   end
 
   def create
@@ -10,9 +22,21 @@ class UsersController < ApplicationController
 
     if @user.valid?
       sign_in(@user)
-      redirect_to root_path
+      redirect_to user_path(@user)
     else
       render :new
+    end
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user = current_user
+      @user.update(user_params)
+      flash[:notice] = "Succesfully updated"
+      redirect_to user_path(@user)
+    else
+      flash[:notice] = "Something went wrong"
+      redirect_to dashboard_index_path
     end
   end
 
