@@ -5,7 +5,17 @@
   <p><%= @user.last_name %></p>
   <p><%= @user.email %></p>
 </div>
-
+  <% if @user = current_user %>
+        <% if @user.profile.bio %>
+        <p><%= @user.profile.bio %></p>
+    <% else %>
+        <p>Don't forget to fill out your bio</p>
+        <%= form_for @user.profile do |f| %>
+            <%= f.text_area :bio, placeholder: "Enter your bio.." %>
+            <%= f.submit "Save!" %>
+            <% end %>
+          <% end %>
+    <% end %>
 <% if @user = current_user %>
   <%= link_to 'Edit', edit_user_path(@user)%>
 <% end %>

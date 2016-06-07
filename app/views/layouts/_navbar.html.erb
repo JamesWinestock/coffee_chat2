@@ -1,0 +1,14 @@
+
+<div class="nav-wrapper">
+    <ul class="navbar">
+          <li class="nav-item"><%= link_to "Home", dashboard_index_path %></li>
+      <% if signed_in? %>
+          <li class="nav-item"><%= link_to "All Students", users_path %></li>
+          <li class="nav-item"><%= link_to "Sign Out", session_path, method: :delete %></li>
+          <li class="nav-item"><%= link_to "My Profile", user_path(current_user) %></li>
+        <% else %>
+          <li class="nav-item"><%= link_to "Sign In", new_session_path %></li>
+          <li class="nav-item"><%= link_to "Sign Up", new_user_path %></li>
+      <% end %>
+      </ul>
+</div>

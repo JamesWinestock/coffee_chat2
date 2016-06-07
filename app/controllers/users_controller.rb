@@ -6,7 +6,8 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = current_user
+    @profile = @user.profile
   end
 
   def new
@@ -22,6 +23,10 @@ class UsersController < ApplicationController
 
     if @user.valid?
       sign_in(@user)
+      @profile = Profile.new
+      @profile.user_id = @user.id
+      @profile.save
+      flash[:notice] = "Success!"
       redirect_to user_path(@user)
     else
       render :new
